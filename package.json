@@ -1,0 +1,19 @@
+{
+  "name": "formine.js",
+  "version": "0.0.1",
+  "description": "Formine's frontend JavaScript component, used for form building and rendering",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/waterbuckit/formine.js.git"
+  },
+  "author": "Adam Royal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/waterbuckit/formine.js/issues"
+  },
+  "homepage": "https://github.com/waterbuckit/formine.js#readme"
+}
