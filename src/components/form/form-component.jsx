@@ -3,23 +3,29 @@ import { useState } from "preact/hooks";
 import { SubmissionContext } from "../../lib/context";
 import * as FormineComponents from "./../components";
 
-export default function FormComponent(props) {
-    const [submission, setSubmission] = useState({});
+// export default function FormComponent({
+// 		hooks,
+//         options,
+// 		schema: { components }
+// 	}) {
+export default function FormComponent({formine : {hooks, options, schema : {components}}}) {
+	const [submission, setSubmission] = useState({});
 
-    const onChange = (e) => {
-        console.log("change", e);
-    }
+	const onChange = (e) => {
+		hooks.onChange?.(e);
+	};
 
-    const onInput = (e) => {
-        console.log("input", e);
-    }
-
+	const onInput = (e) => {
+		hooks.onInput?.(e);
+	};
 
 	return (
-		<SubmissionContext.Provider value={{submission, onChange, onInput}}>
+		<SubmissionContext.Provider value={{ submission, onChange, onInput }}>
 			<form>
-				{props.formine.schema.components.map((component) => {
-					const comp = { component: FormineComponents[component.type] };
+				{components.map((component) => {
+					const comp = {
+						component: FormineComponents[component.type],
+					};
 					return <comp.component {...component} />;
 				})}
 			</form>
