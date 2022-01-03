@@ -3,11 +3,6 @@ import { useState } from "preact/hooks";
 import { SubmissionContext } from "../../lib/context";
 import * as FormineComponents from "./../components";
 
-// export default function FormComponent({
-// 		hooks,
-//         options,
-// 		schema: { components }
-// 	}) {
 export default function FormComponent({formine : {hooks, options, schema : {components}}}) {
 	const [submission, setSubmission] = useState({});
 
