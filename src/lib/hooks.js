@@ -6,13 +6,13 @@ export const useTextComponent = (setValue, props) => {
 	return {
 		onChange : (e) => {
 			setValue(e.target.value);
-			props.onChange?.(e);
-			onChange(e);
+			props.onChange?.(e, e.target.value, props.path);
+			onChange(e, e.target.value, props.path);
 		},
 		onInput : (e) => {
 			setValue(e.target.value);
-			props.onInput?.(e);
-			onInput(e);
+			props.onInput?.(e, e.target.value, props.path);
+			onInput(e, e.target.value, props.path);
 		},
         onClick : props?.onClick
 	};
