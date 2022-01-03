@@ -1,8 +1,9 @@
 import FormComponent from "./components/form/form-component";
-import { h, render } from "preact";
+import { h, render as preactRender } from "preact";
 
-class Formine {
+class Formine extends FormComponent {
 	constructor(element, schema, options, hooks) {
+		super();
 		this.element = element;
 		this.schema = schema;
 		this.options = options;
@@ -11,22 +12,22 @@ class Formine {
 
 	static async render(element, { schema = {}, hooks = {}, options = {} }) {
 		return new Promise((resolve, reject) => {
-			const instance = new Formine(element, schema, options, hooks);
 			try {
-				instance.#initialiseForm();
+				let instance = null;
+				preactRender(
+					<Formine
+						ref={(formine) => {
+							instance = formine;
+						}}
+						formine={{ schema, hooks, options }}
+					/>,
+					element
+				);
 				resolve(instance);
 			} catch (e) {
 				reject(e);
 			}
 		});
-	}
-
-    get submission(){
-        return this.rootForm.submission;
-    }
-
-	#initialiseForm() {
-		render(<FormComponent ref={(rootForm) => {this.rootForm = rootForm}} formine={this} />, this.element);
 	}
 }
 
