@@ -16,6 +16,22 @@
                                 key : "text-field",
                                 attributes : {
                                     placeholder : "Text"
+                                },
+                                display : {
+                                    conditions: [
+                                        {
+                                            type : "set",
+                                            operation : "&&",
+                                            conditions : [
+                                                {
+                                                    type : "simple",
+                                                    path : "password-field",
+                                                    operation : "==",
+                                                    value : "hello"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
                             },
                             {

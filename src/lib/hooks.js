@@ -1,8 +1,9 @@
 import { SubmissionContext } from "./context";
-import { useContext } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
+import { conditionReducer } from "./reducers";
 
 export const useTextComponent = (setValue, props) => {
-	const { submission, onChange, onInput } = useContext(SubmissionContext);
+	const { onChange, onInput } = useContext(SubmissionContext);
 	return {
 		onChange : (e) => {
 			setValue(e.target.value);
@@ -17,3 +18,13 @@ export const useTextComponent = (setValue, props) => {
         onClick : props?.onClick
 	};
 };
+
+export const useConditionalRender = (conditions = [], defaultShow = true) => {
+
+    const { submission } = useContext(SubmissionContext);
+    const [show, setShow] = useState(defaultShow);
+
+    setShow(conditions.reduce(conditionReducer(submission), defaultShow));
+
+    return [show, setShow];
+}
