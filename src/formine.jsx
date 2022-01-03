@@ -14,16 +14,19 @@ class Formine {
 			const instance = new Formine(element, schema, options, hooks);
 			try {
 				instance.#initialiseForm();
-				resolve(this);
+				resolve(instance);
 			} catch (e) {
 				reject(e);
 			}
 		});
 	}
 
+    get submission(){
+        return this.rootForm.submission;
+    }
+
 	#initialiseForm() {
-		this.rootForm = <FormComponent formine={this} />;
-		render(this.rootForm, this.element);
+		render(<FormComponent ref={(rootForm) => {this.rootForm = rootForm}} formine={this} />, this.element);
 	}
 }
 

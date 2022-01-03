@@ -6,8 +6,9 @@
     <body>
         <div id="formine"></div>
 
+        <button id="submission">submission</button>
         <script>
-                const formine1 = Formine.render(document.getElementById('formine'), {
+                Formine.render(document.getElementById('formine'), {
                     schema: {
                         "components": [
                             {
@@ -32,7 +33,13 @@
                             }
                         ],
                     },
-                }).catch((e) => {
+                })
+                .then((formine) => {
+                    document.getElementById('submission').addEventListener('click', function(){
+                        console.log(formine.submission);
+                    })
+                })
+                .catch((e) => {
                     console.error(e);
                 });
         </script>
