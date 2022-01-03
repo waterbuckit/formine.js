@@ -35,7 +35,6 @@ export default class FormComponent extends Component {
 
 		const updateSubmissionField = (value, path) => {
 			this.state.submission = { ...state.submission, [path]: value };
-			console.log(this.state.submission);
 		};
 
 		return (
