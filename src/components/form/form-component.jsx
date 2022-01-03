@@ -23,8 +23,6 @@ export default class FormComponent extends Component {
 		},
 		state
 	) {
-		console.log(state.submission);
-
 		const onChange = (e, value, path) => {
 			updateSubmissionField(value, path);
 			hooks.onChange?.(e);
