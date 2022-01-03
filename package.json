@@ -2,9 +2,11 @@
   "name": "formine.js",
   "version": "0.0.1",
   "description": "Formine's frontend JavaScript component, used for form building and rendering",
-  "main": "index.js",
+  "main": "./dist/cdn-node.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "esbuild ./src/builds/cdn.js --jsx-factory=h --jsx-fragment=Fragment --bundle --minify --sourcemap --outfile=./dist/cdn.js",
+    "watch": "esbuild ./src/builds/cdn.js --jsx-factory=h --jsx-fragment=Fragment --bundle --minify --sourcemap --watch --outfile=./dist/cdn.js",
+    "build-node": "esbuild ./src/index.js --bundle --platform=node --outfile=./dist/cdn-node.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/waterbuckit/formine.js/issues"
   },
-  "homepage": "https://github.com/waterbuckit/formine.js#readme"
+  "homepage": "https://github.com/waterbuckit/formine.js#readme",
+  "devDependencies": {
+    "esbuild": "^0.14.10",
+    "preact": "^10.6.4"
+  }
 }
