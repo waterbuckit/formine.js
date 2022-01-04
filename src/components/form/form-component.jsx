@@ -1,5 +1,4 @@
 import { h, Component } from "preact";
-import { useState } from "preact/hooks";
 import { SubmissionContext } from "../../lib/context";
 import FormineComponent from "../formine-component";
 import * as FormineComponents from "./../components";
