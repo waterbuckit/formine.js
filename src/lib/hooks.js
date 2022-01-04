@@ -1,5 +1,5 @@
 import { SubmissionContext } from "./context";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { conditionReducer } from "./reducers";
 
 export const useTextComponent = (setValue, props) => {
@@ -18,6 +18,26 @@ export const useTextComponent = (setValue, props) => {
         onClick : props?.onClick
 	};
 };
+
+export const useButtonComponent = (setValue, props) => {
+	const { onChange, onInput } = useContext(SubmissionContext);
+	const type =  props?.attributes?.type == "submit" ? props.attributes.type : "button";
+	return [{
+        onClick : props?.onClick
+	}, type];
+};
+
+export const useShowLabel = (showLabel = true, type) => {
+	const invalidType = useMemo(() => {
+		switch(type){
+			case "button":
+				return false;
+			default:
+				return true;
+		}
+	}, [type])
+	return useState(showLabel && invalidType);
+}
 
 export const useConditionalRender = (conditions = [], defaultShow = true) => {
 
