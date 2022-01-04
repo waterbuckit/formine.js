@@ -6,7 +6,7 @@ export default function ButtonComponent(props) {
 	const [value, setValue] = useState(props.defaultValue ?? "");
 	const [actionHandlers, type] = useButtonComponent(value, props);
 
-	return <button {...props.attributes} {...actionHandlers} type={type}
+	return <button {...props?.attributes} {...actionHandlers} type={type}
 	dangerouslySetInnerHTML={{
 		__html: props.innerHTML ?? `<span>${props.uid}</span>`
 	  }}></button>;

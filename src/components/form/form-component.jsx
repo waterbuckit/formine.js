@@ -47,7 +47,7 @@ export default class FormComponent extends Component {
 					onInput,
 				}}
 			>
-				<form>
+				<form {...this.props?.attributes}>
 					{components.map((component) => {
 						const comp = {
 							component: FormineComponents[component.type],
