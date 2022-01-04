@@ -54,7 +54,7 @@ export default class FormComponent extends Component {
 							component: FormineComponents[component.type],
 						};
 						return (
-							<FormineComponent {...component}>
+							<FormineComponent display={component?.display}>
 								<comp.component
 									{...component}
 									path={`${path ? path + "." : ""}${
