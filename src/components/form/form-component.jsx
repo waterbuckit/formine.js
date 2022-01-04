@@ -1,6 +1,7 @@
 import { h, Component } from "preact";
 import { useState } from "preact/hooks";
 import { SubmissionContext } from "../../lib/context";
+import FormineComponent from "../formine-component";
 import * as FormineComponents from "./../components";
 
 export default class FormComponent extends Component {
@@ -34,7 +35,9 @@ export default class FormComponent extends Component {
 		};
 
 		const updateSubmissionField = (value, path) => {
-		    this.setState({ submission : { ...state.submission, [path]: value }});
+			this.setState({
+				submission: { ...state.submission, [path]: value },
+			});
 		};
 
 		return (
@@ -51,12 +54,14 @@ export default class FormComponent extends Component {
 							component: FormineComponents[component.type],
 						};
 						return (
-							<comp.component
-								{...component}
-								path={`${path ? path + "." : ""}${
-									component.key
-								}`}
-							/>
+							<FormineComponent {...component}>
+								<comp.component
+									{...component}
+									path={`${path ? path + "." : ""}${
+										component.key
+									}`}
+								/>
+							</FormineComponent>
 						);
 					})}
 				</form>
