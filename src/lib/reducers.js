@@ -1,15 +1,3 @@
-// const applyOperator = (a, operator, b) => {
-//     switch(operator) {
-//         case "==":
-//             return a == b;
-//         case "||":
-//             return a || b;
-//         case "&&":
-//         default:
-//             return a && b;
-//     }
-// }
-
 import Formine from "../formine";
 
 export const conditionReducer = (submission, operation = Formine.OPERATORS.AND) => (toShow, condition) => {
@@ -24,7 +12,6 @@ export const conditionReducer = (submission, operation = Formine.OPERATORS.AND) 
         case "advanced":
         default:
     }
-    ret = operation?.operate(ret == (condition.display ?? true), toShow);
-    //  ?? ret == (condition.display ?? true) && toShow 
+    ret = operation.operate(ret == (condition.display ?? true), toShow);
     return ret;
 };
