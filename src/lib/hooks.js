@@ -46,9 +46,9 @@ export const useConditionalRender = (conditions = [], defaultShow = true) => {
     const { submission } = useContext(SubmissionContext);
     const [show, setShow] = useState(defaultShow);
 
-	useEffect(() => {
+	useMemo(() => {
     	setShow(conditions.reduce(conditionReducer(submission), defaultShow));
-	}, [submission]); // only run if the submission has changed
+	}, [submission]);
 
     return [show, setShow];
 }
