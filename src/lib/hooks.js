@@ -2,9 +2,11 @@ import { SubmissionContext } from "./context";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { conditionReducer } from "./reducers";
 
-export const useTextComponent = (setValue, props) => {
+export const useTextComponent = (props) => {
+	const [value, setValue] = useState(props.defaultValue ?? "");
 	const { onChange, onInput } = useContext(SubmissionContext);
-	return {
+	return [value, setValue,{
+		value, 
 		onChange : (e) => {
 			setValue(e.target.value);
 			props.onChange?.(e, e.target.value, props.path);
@@ -16,7 +18,7 @@ export const useTextComponent = (setValue, props) => {
 			onInput(e, e.target.value, props.path);
 		},
         onClick : props?.onClick
-	};
+	}];
 };
 
 export const useButtonComponent = (setValue, props) => {

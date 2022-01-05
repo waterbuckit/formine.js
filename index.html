@@ -19,18 +19,26 @@
                                 },
                                 display : {
                                     conditions: [
-                                        {
-                                            type : "set",
-                                            operation : "&&",
-                                            conditions : [
+                                        //{
+                                        //    type : "set",
+                                        //    display : true,
+                                        //    operation : "&&",
+                                        //    conditions : [
                                                 {
                                                     type : "simple",
+                                                    display : true,
                                                     path : "password-field",
-                                                    operation : "==",
+                                                    operation : Formine.OPERATORS.NEQ,
                                                     value : "hello"
-                                                }
-                                            ]
-                                        }
+                                                },
+                                            //    {
+                                            //        type : "simple",
+                                            //        path : "text-area",
+                                            //        operation : "==",
+                                            //        value : "hello"
+                                            //    }
+                                            //]
+                                        //}
                                     ]
                                 }
                             },
