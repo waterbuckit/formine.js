@@ -1,6 +1,11 @@
 import Formine from "../formine";
 
 export const conditionReducer = (submission, operation = Formine.OPERATORS.AND) => (toShow, condition) => {
+
+    if(!(condition.operation.prototype instanceof Formine.OPERATORS.Operator)){
+        throw new Error(`Invalid Operator Type: ${typeof condition.operation}`);
+    }
+
     let ret = toShow;
     switch(condition.type){
         case "set":
