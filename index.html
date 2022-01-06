@@ -1,78 +1,77 @@
 <html>
-    <head>
-        <script src="./dist/cdn.js"></script>
-    </head>
 
-    <body>
-        <div id="formine"></div>
+<head>
+    <script src="./dist/cdn.js"></script>
+</head>
 
-        <button id="submission">submission</button>
-        <script defer>
-                Formine.render(document.getElementById('formine'), {
-                    schema: {
-                        "components": [
-                            {
-                                type: "text",
-                                uid : "text-field",
-                                attributes : {
-                                    placeholder : "Text"
-                                },
-                                display : {
-                                    conditions: [
-                                        //{
-                                        //    type : "set",
-                                        //    display : true,
-                                        //    operation : "&&",
-                                        //    conditions : [
-                                                {
-                                                    type : "simple",
-                                                    display : true,
-                                                    path : "password-field",
-                                                    operation : Formine.OPERATORS.NEQ,
-                                                    value : "hello"
-                                                },
-                                            //    {
-                                            //        type : "simple",
-                                            //        path : "text-area",
-                                            //        operation : "==",
-                                            //        value : "hello"
-                                            //    }
-                                            //]
-                                        //}
-                                    ]
-                                }
-                            },
-                            {
-                                type: "button",
-                                uid : "button",
-                                attributes : {
-                                    placeholder : "Password",
-                                }
-                            },
-                            {
-                                type: "password",
-                                uid : "password-field",
-                                attributes : {
-                                    placeholder : "Password",
-                                }
-                            },
-                            {
-                                type: "textarea",
-                                uid : "text-area",
-                                attributes : {
-                                }
-                            }
-                        ],
+<body>
+    <div id="formine"></div>
+
+    <button id="submission">submission</button>
+    <script defer>
+        Formine.render(document.getElementById('formine'), {
+            schema: {
+                "components": [
+                    {
+                        type: "text",
+                        uid: "text-field",
+                        attributes: {
+                            placeholder: "Text"
+                        },
+                        display: {
+                            conditions: [
+                                `(submission) => { return submission['text-area'] == "hello"; }`,
+                                //{
+                                //    display: true,
+                                //    operation: Formine.OPERATORS.AND,
+                                //    conditions: [
+                                //        {
+                                //            path: "password-field",
+                                //            operation: Formine.OPERATORS.EQ,
+                                //            value: "hello"
+                                //        },
+                                //        {
+                                //            path: "text-area",
+                                //            operation: Formine.OPERATORS.EQ,
+                                //            value: "hello"
+                                //        },
+                                    //]
+                                //}
+                            ]
+                        }
                     },
+                    {
+                        type: "button",
+                        uid: "button",
+                        attributes: {
+                            placeholder: "Password",
+                        }
+                    },
+                    {
+                        type: "password",
+                        uid: "password-field",
+                        attributes: {
+                            placeholder: "Password",
+                        }
+                    },
+                    {
+                        type: "textarea",
+                        uid: "text-area",
+                        attributes: {
+                        }
+                    }
+                ],
+            },
+        })
+            .then((formine) => {
+                document.getElementById('submission').addEventListener('click', function () {
+                    console.log(formine.submission);
                 })
-                .then((formine) => {
-                    document.getElementById('submission').addEventListener('click', function(){
-                        console.log(formine.submission);
-                    })
-                })
-                .catch((e) => {
-                    console.error(e);
-                });
-        </script>
-    </body>
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    </script>
+</body>
+
 </html>
