@@ -12,40 +12,43 @@
         Formine.render(document.getElementById('formine'), {
             schema: {
                 "components": [
+                    // {
+                    //     type: "text",
+                    //     uid: "text-field",
+                    //     attributes: {
+                    //         placeholder: "Text"
+                    //     },
+                    //     display: {
+                    //         conditions: [
+                    //             `(submission) => { return submission['text-area'] == "hello"; }`,
+                    //             //{
+                    //             //    display: true,
+                    //             //    operation: Formine.OPERATORS.AND,
+                    //             //    conditions: [
+                    //             //        {
+                    //             //            path: "password-field",
+                    //             //            operation: Formine.OPERATORS.EQ,
+                    //             //            value: "hello"
+                    //             //        },
+                    //             //        {
+                    //             //            path: "text-area",
+                    //             //            operation: Formine.OPERATORS.EQ,
+                    //             //            value: "hello"
+                    //             //        },
+                    //                 //]
+                    //             //}
+                    //         ]
+                    //     }
+                    // },
                     {
-                        type: "text",
-                        uid: "text-field",
-                        attributes: {
-                            placeholder: "Text"
-                        },
-                        display: {
-                            conditions: [
-                                `(submission) => { return submission['text-area'] == "hello"; }`,
-                                //{
-                                //    display: true,
-                                //    operation: Formine.OPERATORS.AND,
-                                //    conditions: [
-                                //        {
-                                //            path: "password-field",
-                                //            operation: Formine.OPERATORS.EQ,
-                                //            value: "hello"
-                                //        },
-                                //        {
-                                //            path: "text-area",
-                                //            operation: Formine.OPERATORS.EQ,
-                                //            value: "hello"
-                                //        },
-                                    //]
-                                //}
-                            ]
-                        }
-                    },
-                    {
-                        type: "button",
-                        uid: "button",
-                        attributes: {
-                            placeholder: "Password",
-                        }
+                        type : "group",
+                        uid : 'mygroup',   
+                        components: [
+                            {
+                                type: "button",
+                                uid: "button",
+                            }
+                        ]
                     },
                     {
                         type: "password",
