@@ -10,36 +10,13 @@
     <button id="submission">submission</button>
     <script defer>
         Formine.render(document.getElementById('formine'), {
+            hooks : {
+                onChange : (e) => {
+                    console.log('Form on change');
+                }
+            },
             schema: {
                 "components": [
-                    // {
-                    //     type: "text",
-                    //     uid: "text-field",
-                    //     attributes: {
-                    //         placeholder: "Text"
-                    //     },
-                    //     display: {
-                    //         conditions: [
-                    //             `(submission) => { return submission['text-area'] == "hello"; }`,
-                    //             //{
-                    //             //    display: true,
-                    //             //    operation: Formine.OPERATORS.AND,
-                    //             //    conditions: [
-                    //             //        {
-                    //             //            path: "password-field",
-                    //             //            operation: Formine.OPERATORS.EQ,
-                    //             //            value: "hello"
-                    //             //        },
-                    //             //        {
-                    //             //            path: "text-area",
-                    //             //            operation: Formine.OPERATORS.EQ,
-                    //             //            value: "hello"
-                    //             //        },
-                    //                 //]
-                    //             //}
-                    //         ]
-                    //     }
-                    // },
                     {
                         type : "group",
                         uid : 'mygroup',   
@@ -47,12 +24,22 @@
                             {
                                 type: "button",
                                 uid: "button",
+                                hooks : {
+                                    onClick : () => {
+                                        console.log('button clicked');
+                                    }
+                                }
                             }
                         ]
                     },
                     {
                         type: "password",
                         uid: "password-field",
+                        hooks : {
+                            onChange : (e) => {
+                                console.log('component on change');
+                            }
+                        },
                         attributes: {
                             placeholder: "Password",
                         }

@@ -9,15 +9,15 @@ export const useTextComponent = (props) => {
 		value, 
 		onChange : (e) => {
 			setValue(e.target.value);
-			props.onChange?.(e, e.target.value, props.path);
+			props.hooks?.onChange?.(e, e.target.value, props.path);
 			onChange(e, e.target.value, props.path);
 		},
 		onInput : (e) => {
 			setValue(e.target.value);
-			props.onInput?.(e, e.target.value, props.path);
+			props.hooks?.onInput?.(e, e.target.value, props.path);
 			onInput(e, e.target.value, props.path);
 		},
-        onClick : props?.onClick
+        onClick : props.hooks?.onClick
 	}];
 };
 
@@ -25,7 +25,7 @@ export const useButtonComponent = (setValue, props) => {
 	const { onChange, onInput } = useContext(SubmissionContext);
 	const type =  props?.attributes?.type == "submit" ? props.attributes.type : "button";
 	return [{
-        onClick : props?.onClick
+        onClick : props.hooks?.onClick
 	}, type];
 };
 
