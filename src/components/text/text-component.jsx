@@ -1,8 +1,8 @@
 import { h, Component } from "preact";
 import { useTextComponent } from "../../lib/hooks";
 
-export default function TextComponent(props) {
+export default function TextComponent({attributes, ...props}) {
     const [value, setValue, componentProps] = useTextComponent(props);
 
-	return <input {...props?.attributes} {...componentProps} type="text" />;
+	return <input {...attributes} {...componentProps} type="text" />;
 }

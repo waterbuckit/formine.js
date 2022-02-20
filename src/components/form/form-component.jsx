@@ -81,6 +81,7 @@ export default class FormComponent extends Component {
 						const comp = {
 							component: FormineComponents[component.type],
 						};
+						component.attributes = {...component.attributes, name : component.uid}; 
 						return (
 							<FormineComponent 
 								{...component}>

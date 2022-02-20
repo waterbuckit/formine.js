@@ -1,8 +1,8 @@
 import { h, Component } from "preact";
 import { useTextComponent } from "../../lib/hooks";
 
-export default function PasswordComponent(props) {
+export default function PasswordComponent({attributes, ...props}) {
 	const [value, setValue, componentProps] = useTextComponent(props);
 
-	return <input {...props?.attributes} {...componentProps}  type="password" />;
+	return <input {...attributes} {...componentProps}  type="password" />;
 }
