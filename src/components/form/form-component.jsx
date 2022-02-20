@@ -22,11 +22,11 @@ export default class FormComponent extends Component {
 			formine: {
 				hooks,
 				options : { submitDefault = false},
-				schema: { components },
+				schema: { attributes, components },
 			},
 			path = null,
 		},
-		state
+		state,
 	) {
 		const onChange = (e, value, path) => {
 			updateSubmissionField(value, path);
@@ -73,7 +73,8 @@ export default class FormComponent extends Component {
 				<form 
 				onSubmit={onSubmit}
 				onReset={onReset}
-				{...this.props?.attributes}>
+				{...attributes}
+				>
 					{components.map((component) => {
 						const comp = {
 							component: FormineComponents[component.type],
