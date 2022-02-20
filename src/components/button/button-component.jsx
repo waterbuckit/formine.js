@@ -3,8 +3,8 @@ import { useState } from "preact/hooks";
 import { useButtonComponent } from "../../lib/hooks";
 
 export default function ButtonComponent(props) {
-	const [value, setValue] = useState(props.defaultValue ?? "");
-	const [actionHandlers, type] = useButtonComponent(value, props);
+	// const [value, setValue] = useState(props.defaultValue ?? "");
+	const [actionHandlers, type] = useButtonComponent(props);
 
 	return <button {...props?.attributes} {...actionHandlers} type={type}
 	dangerouslySetInnerHTML={{

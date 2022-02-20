@@ -21,11 +21,10 @@ export const useTextComponent = (props) => {
 	}];
 };
 
-export const useButtonComponent = (setValue, props) => {
-	const { onChange, onInput } = useContext(SubmissionContext);
-	const type =  props?.attributes?.type == "submit" ? props.attributes.type : "button";
+export const useButtonComponent = (props) => {
+	const type =  ['submit', 'reset'].includes(props?.attributes?.type) ? props.attributes.type : "button";
 	return [{
-        onClick : props.hooks?.onClick
+        onClick : props?.hooks?.onClick
 	}, type];
 };
 

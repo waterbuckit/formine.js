@@ -5,7 +5,8 @@
   "main": "./dist/cdn-node.js",
   "scripts": {
     "build": "node ./config/build.js",
-    "watch": "node ./config/build.js --watch"
+    "watch": "node ./config/build.js --watch",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,12 @@
   },
   "homepage": "https://github.com/waterbuckit/formine.js#readme",
   "devDependencies": {
+    "@testing-library/preact": "^2.0.1",
+    "@testing-library/preact-hooks": "^1.1.0",
     "esbuild": "^0.14.10",
+    "esbuild-jest": "^0.5.0",
     "esbuild-plugin-alias": "^0.2.1",
+    "jest": "^27.5.1",
     "preact": "^10.6.4",
     "react-select": "^5.2.1"
   }
