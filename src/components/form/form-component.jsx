@@ -93,6 +93,7 @@ export default class FormComponent extends Component {
 							</FormineComponent>
 						);
 					})}
+					<input type="submit" hidden></input>
 				</form>
 			</SubmissionContext.Provider>
 		);
