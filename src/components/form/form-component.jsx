@@ -21,7 +21,7 @@ export default class FormComponent extends Component {
 		{
 			formine: {
 				hooks,
-				options,
+				options : { submitDefault = false},
 				schema: { components },
 			},
 			path = null,
@@ -40,11 +40,20 @@ export default class FormComponent extends Component {
 
 		const onSubmit = (e) => {
 			e.preventDefault();
+
 			hooks.beforeSubmit?.(e, this);	
 			this.setState({
 				submitted : true
 			});
 			hooks.onSubmit?.(e, this);
+
+			if(submitDefault){
+				e.target.submit();
+			}
+		}
+
+		const onReset = (e) => {
+			hooks.beforeReset?.(e, this);
 		}
 
 		const updateSubmissionField = (value, path) => {
@@ -63,6 +72,7 @@ export default class FormComponent extends Component {
 			>
 				<form 
 				onSubmit={onSubmit}
+				onReset={onReset}
 				{...this.props?.attributes}>
 					{components.map((component) => {
 						const comp = {
