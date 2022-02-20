@@ -53,7 +53,9 @@ export default class FormComponent extends Component {
 		}
 
 		const onReset = (e) => {
-			hooks.beforeReset?.(e, this);
+			hooks.beforeReset?.(e, this.submission, this);
+			this.setState({submission : {}});
+			hooks.onReset?.(e, this);
 		}
 
 		const updateSubmissionField = (value, path) => {

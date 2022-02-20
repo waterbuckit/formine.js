@@ -17,10 +17,13 @@
                 },
                 onSubmit : (e, form) => {
                     console.log("on submit", e, form);
+                },
+                onReset : (e, form) => {
+                    console.log("on reset", e, form);
+                },
+                beforeReset : (e, submission, form) => {
+                    console.log("before reset", e, submission, form);
                 }
-            },
-            options : {
-                // submitDefault : true
             },
             schema: {
                 components: [
