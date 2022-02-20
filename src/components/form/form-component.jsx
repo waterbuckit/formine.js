@@ -6,10 +6,15 @@ import * as FormineComponents from "./../components";
 export default class FormComponent extends Component {
 	state = {
 		submission: {},
+		submitted : false,
 	};
 
 	get submission() {
 		return this.state.submission;
+	}
+
+	get submitted() {
+		return this.state.submitted;
 	}
 
 	render(
@@ -33,6 +38,15 @@ export default class FormComponent extends Component {
 			hooks.onInput?.(e);
 		};
 
+		const onSubmit = (e) => {
+			e.preventDefault();
+			hooks.beforeSubmit?.(e, this);	
+			this.setState({
+				submitted : true
+			});
+			hooks.onSubmit?.(e, this);
+		}
+
 		const updateSubmissionField = (value, path) => {
 			this.setState({
 				submission: { ...state.submission, [path]: value },
@@ -47,7 +61,9 @@ export default class FormComponent extends Component {
 					onInput,
 				}}
 			>
-				<form {...this.props?.attributes}>
+				<form 
+				onSubmit={onSubmit}
+				{...this.props?.attributes}>
 					{components.map((component) => {
 						const comp = {
 							component: FormineComponents[component.type],

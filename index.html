@@ -6,13 +6,17 @@
 
 <body>
     <div id="formine"></div>
-
-    <button id="submission">submission</button>
     <script defer>
         Formine.render(document.getElementById('formine'), {
             hooks : {
                 onChange : (e) => {
                     console.log('Form on change');
+                },
+                beforeSubmit : (e, form) => {
+                    console.log("executing before submission", e, form);
+                },
+                onSubmit : (e, form) => {
+                    console.log("on submit", e, form);
                 }
             },
             schema: {
@@ -24,6 +28,9 @@
                             {
                                 type: "button",
                                 uid: "button",
+                                attributes : {
+                                    type : "submit"
+                                },
                                 hooks : {
                                     onClick : () => {
                                         console.log('button clicked');
@@ -54,9 +61,7 @@
             },
         })
             .then((formine) => {
-                document.getElementById('submission').addEventListener('click', function () {
-                    console.log(formine.submission);
-                })
+                console.log('formine loaded!', formine);
             })
             .catch((e) => {
                 console.error(e);
