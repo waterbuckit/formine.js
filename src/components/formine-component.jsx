@@ -8,14 +8,15 @@ export default function FormineComponent({
 	fieldLabel,
     type,
     showLabel,
-	display: { conditions = [], defaultShow } = {},
+	labelAttributes,
+	display: { conditions = [], defaultShow }  = {},
 }) {
 	const [show, setShow] = useConditionalRender(conditions, defaultShow);
     const [showFieldLabel, setShowFieldLabel] = useShowLabel(showLabel, type)
 
 	return show ? (
 		<>
-			{showFieldLabel && <label for={uid}> {fieldLabel ?? uid} </label>} {children}
+			{showFieldLabel && <label {...labelAttributes} for={uid}> {fieldLabel ?? uid} </label>} {children}
 		</>
 	) : null;
 }
