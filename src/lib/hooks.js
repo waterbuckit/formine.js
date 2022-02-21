@@ -28,7 +28,7 @@ export const useButtonComponent = (attributes, hooks) => {
 	}, type];
 };
 
-export const useShowLabel = (showLabel = true, type) => {
+export const useShowLabel = (showLabel = true, type, before = true) => {
 	const invalidType = useMemo(() => {
 		switch(type){
 			case "button":
@@ -38,7 +38,7 @@ export const useShowLabel = (showLabel = true, type) => {
 		}
 	}, [type])
 
-	const before = useMemo(() => {
+	const before = before ?? useMemo(() => {
 		switch(type){
 			case "checkbox":
 				return false;
