@@ -1,6 +1,7 @@
 import { useConditionalRender, useShowLabel } from "../lib/hooks";
 import { h, Component, Fragment } from "preact";
 import { useState } from "preact/hooks";
+import { LabelComponent } from "./label-component";
 
 export default function FormineComponent({
 	children,
@@ -12,11 +13,13 @@ export default function FormineComponent({
 	display: { conditions = [], defaultShow }  = {},
 }) {
 	const [show, setShow] = useConditionalRender(conditions, defaultShow);
-    const [showFieldLabel, setShowFieldLabel] = useShowLabel(showLabel, type)
+    const [showFieldLabel, setShowFieldLabel, before] = useShowLabel(showLabel, type)
 
 	return show ? (
 		<>
-			{showFieldLabel && <label {...labelAttributes} for={uid}> {fieldLabel ?? uid} </label>} {children}
+			{before && <LabelComponent showFieldLabel={showFieldLabel} fieldLabel={fieldLabel} labelAttributes={labelAttributes} uid={uid} />}
+			{children}
+			{!before && <LabelComponent showFieldLabel={showFieldLabel} fieldLabel={fieldLabel} labelAttributes={labelAttributes} uid={uid} />}
 		</>
 	) : null;
 }

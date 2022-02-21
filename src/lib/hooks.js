@@ -37,7 +37,18 @@ export const useShowLabel = (showLabel = true, type) => {
 				return true;
 		}
 	}, [type])
-	return useState(showLabel && invalidType);
+
+	const before = useMemo(() => {
+		switch(type){
+			case "checkbox":
+				return false;
+			default:
+				return true;
+		}
+	}, [type]);
+
+
+	return [...useState(showLabel && invalidType), before];
 }
 
 export const useConditionalRender = (conditions = [], defaultShow = true) => {
