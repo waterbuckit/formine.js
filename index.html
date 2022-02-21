@@ -16,7 +16,7 @@
                     console.log("executing before submission", e, form);
                 },
                 onSubmit : (e, form) => {
-                    console.log("on submit", e, form);
+                    console.log("on submit", form.submission);
                 },
                 onReset : (e, form) => {
                     console.log("on reset", e, form);
@@ -48,6 +48,13 @@
                                 }
                             }
                         ]
+                    },
+                    {
+                        type : "checkbox",
+                        uid: "checkbox-single",
+                        attributes : {
+                            value : "hello" 
+                        }
                     },
                     {
                         type: "text",

@@ -2,24 +2,47 @@ import { SubmissionContext } from "./context";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { conditionReducer } from "./reducers";
 
-export const useTextComponent = (props) => {
-	const [value, setValue] = useState(props.defaultValue ?? "");
+export const useTextComponent = ({defaultValue, path, hooks}) => {
+	const [value, setValue] = useState(defaultValue ?? "");
 	const { onChange, onInput } = useContext(SubmissionContext);
 	return [value, setValue,{
 		value, 
 		onChange : (e) => {
 			setValue(e.target.value);
-			props.hooks?.onChange?.(e, e.target.value, props.path);
-			onChange(e, e.target.value, props.path);
+			hooks?.onChange?.(e, e.target.value, path);
+			onChange(e, e.target.value, path);
 		},
 		onInput : (e) => {
 			setValue(e.target.value);
-			props.hooks?.onInput?.(e, e.target.value, props.path);
-			onInput(e, e.target.value, props.path);
+			hooks?.onInput?.(e, e.target.value, path);
+			onInput(e, e.target.value, path);
 		},
-        onClick : props.hooks?.onClick
+        onClick : hooks?.onClick
 	}];
 };
+
+export const useCheckboxComponent = ({defaultValue = false, path, hooks}, { value = null}) => {
+
+	const { onChange, onInput } = useContext(SubmissionContext);
+	const [ checked, setChecked ] = useState(defaultValue);
+	return [checked, setChecked,{
+		checked,
+		value,
+		onChange : (e) => {
+			const val = e.target.checked ? (value ?? checked) : false;
+			setChecked(e.target.checked);
+			hooks?.onChange?.(e, val, path);
+			onChange(e, val, path);
+		},
+		onInput : (e) => {
+			const val = e.target.checked ? (value ?? checked) : false;
+			setChecked(e.target.checked);
+			hooks?.onInput?.(e, val, path);
+			onInput(e, val, path);
+		},
+        onClick : hooks?.onClick
+	}];
+}
 
 export const useButtonComponent = (attributes, hooks) => {
 	const type =  ['submit', 'reset'].includes(attributes?.type) ? attributes.type : "button";
@@ -29,6 +52,7 @@ export const useButtonComponent = (attributes, hooks) => {
 };
 
 export const useShowLabel = (showLabel = true, type, before = true) => {
+
 	const invalidType = useMemo(() => {
 		switch(type){
 			case "button":
@@ -38,17 +62,16 @@ export const useShowLabel = (showLabel = true, type, before = true) => {
 		}
 	}, [type])
 
-	const before = before ?? useMemo(() => {
-		switch(type){
-			case "checkbox":
-				return false;
-			default:
-				return true;
-		}
-	}, [type]);
-
-
-	return [...useState(showLabel && invalidType), before];
+	return [...useState(showLabel && invalidType), 
+		before ?? useMemo(() => {
+			switch(type){
+				case "checkbox":
+					return false;
+				default:
+					return true;
+			}
+		}, [type])
+	];
 }
 
 export const useConditionalRender = (conditions = [], defaultShow = true) => {

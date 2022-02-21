@@ -9,9 +9,11 @@ import DatetimeComponent from "./datetime/datetime-component";
 import UrlComponent from "./url/url-component";
 import EmailComponent from "./email/email-component";
 import TelComponent from "./tel/tel-component";
+import CheckboxComponent from "./checkbox-component/checkbox-component";
 
 export {
     EmailComponent as email,
+    CheckboxComponent as checkbox,
     TelComponent as tel,
     TextComponent as text,
     TextAreaComponent as textarea,
