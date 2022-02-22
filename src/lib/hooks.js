@@ -1,6 +1,7 @@
 import { SubmissionContext } from "./context";
 import { useContext, useEffect, useMemo, useState } from "preact/hooks";
 import { conditionReducer } from "./reducers";
+import { snake } from "./helpers";
 
 export const useTextComponent = ({defaultValue, path, hooks}) => {
 	const [value, setValue] = useState(defaultValue ?? "");
@@ -45,9 +46,15 @@ export const useCheckboxComponent = ({defaultValue = false, path, hooks}, { valu
 }
 
 export const useCheckboxFieldsetComponent = (fields) => {
-	
+	const { onChange, onInput } = useContext(SubmissionContext);
+
+	const [checkedState, setCheckedState] = useState(fields
+		.reduce((a, b) => { 
+			a[snake(b.label)] = false; return a; 
+		}, {}));
 
 
+	return [checkedState, setCheckedState, onChange]
 }
 
 export const useButtonComponent = (attributes, hooks) => {
