@@ -45,17 +45,44 @@ export const useCheckboxComponent = ({defaultValue = false, path, hooks}, { valu
 	}];
 }
 
-export const useCheckboxFieldsetComponent = (fields) => {
-	const { onChange, onInput } = useContext(SubmissionContext);
+export const useCheckboxFieldsetComponent = (fields, { path, hooks }) => {
+    const { onChange, onInput } = useContext(SubmissionContext);
+	const [event, setEvent] = useState(null);
 
-	const [checkedState, setCheckedState] = useState(fields
-		.reduce((a, b) => { 
-			a[snake(b.label)] = false; return a; 
-		}, {}));
+    const [checkedState, setCheckedState] = useState(
+        fields.reduce((a, b) => {
+            a[snake(b.label)] = false;
+            return a;
+        }, {})
+    );
 
+				
+	useEffect(() => {
+        hooks?.onChange?.(event, val, path);
+        onChange(event, checkedState, path);
+    }, [checkedState]);
 
-	return [checkedState, setCheckedState, onChange]
-}
+    return [
+        checkedState,
+        setCheckedState,
+        {
+            getChecked: (field) => checkedState[field],
+            updateCheckedState: async (field, e) => {
+
+                const opposite = fields.reduce((a, b) => {
+                    a[snake(b.label)] = b.value;
+                    return a;
+                }, {})[field];
+
+                setCheckedState({
+                    ...checkedState,
+                    [field]: checkedState[field] ? false : opposite,
+                });
+				setEvent(e);
+            },
+        },
+    ];
+};
 
 export const useButtonComponent = (attributes, hooks) => {
 	const type =  ['submit', 'reset'].includes(attributes?.type) ? attributes.type : "button";
