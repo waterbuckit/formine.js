@@ -1,24 +1,34 @@
 import { useConditionalRender, useShowLabel } from "../lib/hooks";
 import { h, Component, Fragment } from "preact";
 import { useState } from "preact/hooks";
+import * as FormineComponents from "./components";
 import { LabelComponent } from "./label-component";
+import { nanoid } from 'nanoid'
+import { slug } from "../lib/helpers";
 
 export default function FormineComponent({
-	children,
 	uid,
 	fieldLabel,
     type,
     showLabel,
+	path,
 	labelAttributes,
 	display: { conditions = [], defaultShow }  = {},
+	...props
 }) {
+	const FormField = FormineComponents[type];
+
+	const [id] = useState(slug(`${nanoid(4)} ${uid}`))
+
 	const [show, setShow] = useConditionalRender(conditions, defaultShow);
     const [showFieldLabel, setShowFieldLabel, before] = useShowLabel(showLabel, type)
 
-	return show ? (
+	props.attributes = {...props.attributes, name : props.attributes?.name || uid, id : id}; 
+
+	return show ? (	
 		<>
 			{before && <LabelComponent showFieldLabel={showFieldLabel} fieldLabel={fieldLabel} labelAttributes={labelAttributes} uid={uid} />}
-			{children}
+			<FormField path={path} {...props} /> 
 			{!before && <LabelComponent showFieldLabel={showFieldLabel} fieldLabel={fieldLabel} labelAttributes={labelAttributes} uid={uid} />}
 		</>
 	) : null;

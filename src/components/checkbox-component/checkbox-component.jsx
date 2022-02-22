@@ -1,25 +1,42 @@
 import { h, Component, Fragment } from "preact";
-import { useCheckboxComponent } from "../../lib/hooks";
+import { useCheckboxComponent, useCheckboxFieldsetComponent } from "../../lib/hooks";
+import { slug } from "../../lib/helpers";
 
 export default function CheckboxComponent({ attributes, fields, ...props }) {
-  const [value, setValue, componentProps] = useCheckboxComponent(
-    props,
-    attributes
-  );
- 
+    if (fields) {
 
-  return fields ? (
-    <fieldset {...attributes}>
-      {fields.map((field) => {
+        // const [checked, setChecked, handlers] = useCheckboxFieldsetComponent(fields);
+
         return (
-          <>
-            <input name={`${attributes.name}-${field.label.toLowerCase()}`} value={field.value} type="checkbox" />
-            <label for={`${attributes.name}-${field.label.toLowerCase()}`}>{field.label}</label>
-          </>
+            <fieldset {...attributes}>
+                {fields.map((field) => {
+                    return (
+                        <>
+                            <input
+                                name={`${
+                                    attributes.name
+                                }-${slug(field.label)}`}
+                                value={field.value}
+                                type="checkbox"
+                            />
+                            <label
+                                for={`${
+                                    attributes.name
+                                }-${slug(field.label)}`}
+                            >
+                                {field.label}
+                            </label>
+                        </>
+                    );
+                })}
+            </fieldset>
         );
-      })}
-    </fieldset>
-  ) : (
-    <input {...attributes} {...componentProps} type="checkbox" />
-  );
+    }
+
+    const [value, setValue, componentProps] = useCheckboxComponent(
+        props,
+        attributes
+    );
+
+    return <input {...attributes} {...componentProps} type="checkbox" />;
 }

@@ -44,6 +44,12 @@ export const useCheckboxComponent = ({defaultValue = false, path, hooks}, { valu
 	}];
 }
 
+export const useCheckboxFieldsetComponent = (fields) => {
+	
+
+
+}
+
 export const useButtonComponent = (attributes, hooks) => {
 	const type =  ['submit', 'reset'].includes(attributes?.type) ? attributes.type : "button";
 	return [{

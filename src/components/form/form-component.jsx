@@ -78,21 +78,14 @@ export default class FormComponent extends Component {
 				{...attributes}
 				>
 					{components.map((component) => {
-						const comp = {
-							component: FormineComponents[component.type],
-						};
-						component.attributes = {...component.attributes, name : component.attributes?.name || component.uid}; 
 						return (
-							<FormineComponent 
-								{...component}>
-								<comp.component
-									{...component}
-									path={`${path ? path + "." : ""}${
-										component.uid
-									}`}
-								/>
-							</FormineComponent>
-						);
+                            <FormineComponent
+                                path={`${path ? path + "." : ""}${
+                                    component.uid
+                                }`}
+                                {...component}
+                            />
+                        );
 					})}
 					<input type="submit" hidden></input>
 				</form>
