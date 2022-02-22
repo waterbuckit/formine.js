@@ -1,8 +1,25 @@
-import { h, Component } from "preact";
+import { h, Component, Fragment } from "preact";
 import { useCheckboxComponent } from "../../lib/hooks";
 
-export default function CheckboxComponent({attributes, ...props}) {
-    const [value, setValue, componentProps] = useCheckboxComponent(props, attributes);
+export default function CheckboxComponent({ attributes, fields, ...props }) {
+  const [value, setValue, componentProps] = useCheckboxComponent(
+    props,
+    attributes
+  );
+ 
 
-    return  <input {...attributes} {...componentProps} type="checkbox" />
+  return fields ? (
+    <fieldset {...attributes}>
+      {fields.map((field) => {
+        return (
+          <>
+            <input name={`${attributes.name}-${field.label.toLowerCase()}`} value={field.value} type="checkbox" />
+            <label for={`${attributes.name}-${field.label.toLowerCase()}`}>{field.label}</label>
+          </>
+        );
+      })}
+    </fieldset>
+  ) : (
+    <input {...attributes} {...componentProps} type="checkbox" />
+  );
 }
