@@ -1,33 +1,35 @@
 import { h, Component, Fragment } from "preact";
-import { useCheckboxComponent, useCheckboxFieldsetComponent } from "../../lib/hooks";
+import {
+    useCheckboxComponent,
+    useCheckboxFieldsetComponent,
+} from "../../lib/hooks";
 import { slug, snake } from "../../lib/helpers";
 
 export default function CheckboxComponent({ attributes, fields, ...props }) {
     if (fields) {
+        const [
+            checkedState,
+            setCheckedState,
+            { getChecked, updateCheckedState },
+        ] = useCheckboxFieldsetComponent(fields, props);
 
-        const [checkedState, setCheckedState, {getChecked, updateCheckedState}] =  useCheckboxFieldsetComponent(fields, props);
-	
         return (
             <fieldset {...attributes}>
                 {fields.map((field) => {
+                    const id = `${attributes.name}-${slug(field.label)}`;
                     return (
                         <>
                             <input
-                                name={`${
-                                    attributes.name
-                                }-${slug(field.label)}`}
+                                name={id}
                                 value={field.value}
+                                id={id}
                                 checked={getChecked(snake(field.label))}
-                                onClick={(e) => updateCheckedState(snake(field.label), e)}
+                                onClick={(e) =>
+                                    updateCheckedState(snake(field.label), e)
+                                }
                                 type="checkbox"
                             />
-                            <label
-                                for={`${
-                                    attributes.name
-                                }-${slug(field.label)}`}
-                            >
-                                {field.label}
-                            </label>
+                            <label for={id}>{field.label}</label>
                         </>
                     );
                 })}

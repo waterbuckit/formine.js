@@ -27,9 +27,9 @@ export default function FormineComponent({
 
 	return show ? (	
 		<>
-			{before && <LabelComponent showFieldLabel={showFieldLabel} fieldLabel={fieldLabel} labelAttributes={labelAttributes} uid={uid} />}
+			{before && <LabelComponent showFieldLabel={showFieldLabel} fieldLabel={fieldLabel} id={id} labelAttributes={labelAttributes} uid={uid} />}
 			<FormField path={path} {...props} /> 
-			{!before && <LabelComponent showFieldLabel={showFieldLabel} fieldLabel={fieldLabel} labelAttributes={labelAttributes} uid={uid} />}
+			{!before && <LabelComponent showFieldLabel={showFieldLabel} fieldLabel={fieldLabel} id={id} labelAttributes={labelAttributes} uid={uid} />}
 		</>
 	) : null;
 }
