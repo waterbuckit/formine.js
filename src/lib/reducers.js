@@ -1,21 +1,23 @@
-import Formine from "../formine";
+import operators from './operators';
 
-
-export const conditionReducer = (submission, operation = Formine.OPERATORS.AND) => 
+export const conditionReducer = (submission, op = operators.AND) => 
     (toShow, condition) => {
 
     const applyConditions = (ret) => {
-        return operation.operate(ret == (condition.display ?? true), toShow);
+        return op.operate(ret == (condition.display ?? true), toShow);
     }
 
     switch(typeof condition){
         case "object":
-            if(!(condition?.operation?.prototype instanceof Formine.OPERATORS.Operator)){
-                throw new Error(`Invalid Operator Type: ${typeof condition?.operation}`);
+            const newCon = {...condition, op : operators[condition.op]};
+
+            if(!(newCon?.op?.prototype instanceof operators.Operator)){
+                throw new Error(`Invalid Operator Type: ${typeof newCon?.op}`);
             }
-            return condition.conditions ? 
-                applyConditions(condition.conditions.reduce(conditionReducer(submission, condition.operation), true)) : 
-                applyConditions(condition.operation.operate(submission[condition.path], condition.value));
+
+            return newCon.conditions ? 
+                applyConditions(newCon.conditions.reduce(conditionReducer(submission, newCon.op), true)) : 
+                applyConditions(newCon.op.operate(submission[newCon.path], newCon.value));
         case "string":
             return applyConditions(Function('"use strict";return (' + condition + ')')()(submission));
         case "function":

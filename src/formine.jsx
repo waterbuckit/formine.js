@@ -3,10 +3,6 @@ import { h, render as preactRender } from "preact";
 import operators from "./lib/operators";
 
 class Formine extends FormComponent {
-	static get OPERATORS(){
-		return operators;
-	}
-
 	constructor(element, schema, options, hooks) {
 		super();
 		this.element = element;
