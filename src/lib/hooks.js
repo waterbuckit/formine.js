@@ -1,5 +1,5 @@
 import { SubmissionContext } from "./context";
-import { useContext, useEffect, useMemo, useState } from "preact/hooks";
+import { useContext, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { conditionReducer } from "./reducers";
 import { snake } from "./helpers";
 
@@ -45,6 +45,17 @@ export const useCheckboxComponent = ({defaultValue = false, path, hooks}, { valu
 	}];
 }
 
+export const useDidUpdateEffect = (fn, inputs) => {
+	const didMountRef = useRef(false);
+  
+	useEffect(() => {
+	  if (didMountRef.current) { 
+		return fn();
+	  }
+	  didMountRef.current = true;
+	}, inputs);
+  }
+
 export const useCheckboxFieldsetComponent = (fields, { path, hooks }) => {
     const { onChange, onInput } = useContext(SubmissionContext);
 	const [event, setEvent] = useState(null);
@@ -55,12 +66,11 @@ export const useCheckboxFieldsetComponent = (fields, { path, hooks }) => {
             return a;
         }, {})
     );
-
 				
-	useEffect(() => {
-        hooks?.onChange?.(event, val, path);
+	useDidUpdateEffect(() => {
+    	hooks?.onChange?.(event, val, path);
         onChange(event, checkedState, path);
-    }, [checkedState]);
+	}, [checkedState])
 
     return [
         checkedState,
