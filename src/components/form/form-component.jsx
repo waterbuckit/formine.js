@@ -10,7 +10,25 @@ export default class FormComponent extends Component {
 	};
 
 	get submission() {
-		return this.state.submission;
+
+		let submission = {};
+		for (const [keyPath, value] of Object.entries(this.state.submission)) { // native for loop probs quickest
+			console.log(keyPath, value);
+			this.#setValue(submission, keyPath, value);
+		}
+
+		return submission;
+	}
+
+	#setValue(obj, path, value) {
+		var a = path.split('.')
+		var o = obj
+		while (a.length - 1) {
+		  var n = a.shift()
+		  if (!(n in o)) o[n] = {}
+		  o = o[n]
+		}
+		o[a[0]] = value
 	}
 
 	get submitted() {
