@@ -4,99 +4,92 @@ import FormineComponent from "../formine-component";
 import * as FormineComponents from "./../components";
 
 export default class FormComponent extends Component {
-	state = {
-		submission: {},
-		submitted : false,
-	};
+    state = {
+        submission: {},
+        submitted: false,
+    };
 
-	get submission() {
+    get submission() {
+        return Object.entries(this.state.submission).reduce(
+            (prev, [keyPath, value]) => this.#setValue(prev, keyPath, value),
+            {}
+        );
+    }
 
-		let submission = {};
-		for (const [keyPath, value] of Object.entries(this.state.submission)) { // native for loop probs quickest
-			console.log(keyPath, value);
-			this.#setValue(submission, keyPath, value);
-		}
+    #setValue(obj, path, value) {
+        var a = path.split(".");
+        var o = obj;
+        while (a.length - 1) {
+            var n = a.shift();
+            if (!(n in o)) o[n] = {};
+            o = o[n];
+        }
+        o[a[0]] = value;
+        return obj;
+    }
 
-		return submission;
-	}
+    get submitted() {
+        return this.state.submitted;
+    }
 
-	#setValue(obj, path, value) {
-		var a = path.split('.')
-		var o = obj
-		while (a.length - 1) {
-		  var n = a.shift()
-		  if (!(n in o)) o[n] = {}
-		  o = o[n]
-		}
-		o[a[0]] = value
-	}
+    render(
+        {
+            formine: {
+                hooks,
+                options: { submitDefault = false },
+                schema: { attributes, components },
+            },
+            path = null,
+        },
+        state
+    ) {
+        const onChange = (e, value, path) => {
+            updateSubmissionField(value, path);
+            hooks.onChange?.(e);
+        };
 
-	get submitted() {
-		return this.state.submitted;
-	}
+        const onInput = (e, value, path) => {
+            updateSubmissionField(value, path);
+            hooks.onInput?.(e);
+        };
 
-	render(
-		{
-			formine: {
-				hooks,
-				options : { submitDefault = false},
-				schema: { attributes, components },
-			},
-			path = null,
-		},
-		state,
-	) {
-		const onChange = (e, value, path) => {
-			updateSubmissionField(value, path);
-			hooks.onChange?.(e);
-		};
+        const onSubmit = (e) => {
+            e.preventDefault();
 
-		const onInput = (e, value, path) => {
-			updateSubmissionField(value, path);
-			hooks.onInput?.(e);
-		};
+            hooks.beforeSubmit?.(e, this);
+            this.setState({
+                submitted: true,
+            });
+            hooks.onSubmit?.(e, this);
 
-		const onSubmit = (e) => {
-			e.preventDefault();
+            if (submitDefault) {
+                e.target.submit();
+            }
+        };
 
-			hooks.beforeSubmit?.(e, this);	
-			this.setState({
-				submitted : true
-			});
-			hooks.onSubmit?.(e, this);
+        const onReset = (e) => {
+            hooks.beforeReset?.(e, this.submission, this);
+            this.setState({ submission: {} });
+            hooks.onReset?.(e, this);
+        };
 
-			if(submitDefault){
-				e.target.submit();
-			}
-		}
+        const updateSubmissionField = (value, path) => {
+            this.setState({
+                submission: { ...state.submission, [path]: value },
+            });
+        };
 
-		const onReset = (e) => {
-			hooks.beforeReset?.(e, this.submission, this);
-			this.setState({submission : {}});
-			hooks.onReset?.(e, this);
-		}
-
-		const updateSubmissionField = (value, path) => {
-			this.setState({
-				submission: { ...state.submission, [path]: value },
-			});
-		};
-
-		return (
-			<SubmissionContext.Provider
-				value={{
-					submission: state.submission,
-					onChange,
-					onInput,
-				}}
-			>
-				<form 
-				onSubmit={onSubmit}
-				onReset={onReset}
-				{...attributes}
-				>
-					{components.map((component) => {
-						return (
+        return (
+            <SubmissionContext.Provider
+                value={{
+                    submission: state.submission,
+                    onChange,
+                    onInput,
+                }}
+            >
+                <form onSubmit={onSubmit} onReset={onReset} {...attributes}>
+                    {components.map((component) => {
+                        return (
                             <FormineComponent
                                 path={`${path ? path + "." : ""}${
                                     component.uid
@@ -104,10 +97,10 @@ export default class FormComponent extends Component {
                                 {...component}
                             />
                         );
-					})}
-					<input type="submit" hidden></input>
-				</form>
-			</SubmissionContext.Provider>
-		);
-	}
+                    })}
+                    <input type="submit" hidden></input>
+                </form>
+            </SubmissionContext.Provider>
+        );
+    }
 }
