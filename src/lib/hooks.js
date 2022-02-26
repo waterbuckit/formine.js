@@ -4,8 +4,11 @@ import { conditionReducer } from "./reducers";
 import { snake } from "./helpers";
 
 export const useTextComponent = ({defaultValue, path, hooks}) => {
-	const [value, setValue] = useState(defaultValue ?? "");
-	const { onChange, onInput } = useContext(SubmissionContext);
+	const { onChange, onInput, values } = useContext(SubmissionContext);
+	const [value, setValue] = useState(( values[path] ?? defaultValue) ?? "");
+
+	useWithSubmissionValue(values[path], path);
+
 	return [value, setValue,{
 		value, 
 		onChange : (e) => {
@@ -21,6 +24,17 @@ export const useTextComponent = ({defaultValue, path, hooks}) => {
         onClick : hooks?.onClick
 	}];
 };
+
+
+export const useWithSubmissionValue = (submissionValue = null, path) => {
+	const { onFieldLoadState } = useContext(SubmissionContext);
+
+	useEffect(() => {
+		if(submissionValue){
+			onFieldLoadState(submissionValue, path);
+		}
+	}, []);
+}
 
 export const useCheckboxComponent = ({defaultValue = false, path, hooks}, { value = null}) => {
 

@@ -11,3 +11,14 @@ export const snake = (string) => {
         .map((word) => word.toLowerCase())
         .join("_");
 };
+
+export const mapToPaths = (object, path = "") => {
+    let map = {};
+    for (let [key, value] of Object.entries(object)) {
+        map[`${path}${key}`] = value;
+        if (typeof value == "object") {
+            map = {...map, ...mapToPaths(value, `${key}.`)};
+        }
+    }
+    return map;
+};

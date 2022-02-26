@@ -10,6 +10,7 @@ export default class FormComponent extends Component {
     };
 
     get submission() {
+		console.log(this.state.submission);
         return Object.entries(this.state.submission).reduce(
             (prev, [keyPath, value]) => this.#setValue(prev, keyPath, value),
             {}
@@ -38,6 +39,7 @@ export default class FormComponent extends Component {
                 hooks,
                 options: { submitDefault = false },
                 schema: { attributes, components },
+				values
             },
             path = null,
         },
@@ -52,6 +54,10 @@ export default class FormComponent extends Component {
             updateSubmissionField(value, path);
             hooks.onInput?.(e);
         };
+
+		const onFieldLoadState = (value, path) => {
+			updateSubmissionField(value, path);
+		}
 
         const onSubmit = (e) => {
             e.preventDefault();
@@ -83,17 +89,20 @@ export default class FormComponent extends Component {
             <SubmissionContext.Provider
                 value={{
                     submission: state.submission,
+					values : values,
                     onChange,
                     onInput,
+					onFieldLoadState
                 }}
             >
                 <form onSubmit={onSubmit} onReset={onReset} {...attributes}>
                     {components.map((component) => {
+						const newPath = `${path ? path + "." : ""}${
+                                    component.uid
+                                }`
                         return (
                             <FormineComponent
-                                path={`${path ? path + "." : ""}${
-                                    component.uid
-                                }`}
+                                path={newPath}
                                 {...component}
                             />
                         );

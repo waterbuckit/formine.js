@@ -8,6 +8,12 @@
     <div id="formine"></div>
     <script defer>
         Formine.render(document.getElementById('formine'), {
+            values : {
+                'text-field' : 'hello',
+                'mygroup' : {
+                    'text-field-nested' : 'Nested value'
+                }
+            },
             hooks : {
                 onChange : (e) => {
                     console.log('Form on change');
