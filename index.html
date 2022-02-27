@@ -10,16 +10,20 @@
         Formine.render(document.getElementById('formine'), {
             values : {
                 'text-field' : 'hello',
-                'mygroup' : {
-                    'text-field-nested' : 'Nested value'
-                }
+                // 'mygroup' : {
+                //     'text-field-nested' : 'Nested value'
+                // },
+                'checkbox-multiple' : {
+                    'hello' : 'hello',
+                },
+                'checkbox-single' : "hello",
             },
             hooks : {
                 onChange : (e) => {
                     console.log('Form on change');
                 },
                 beforeSubmit : (e, form) => {
-                    console.log("executing before submission", e, form);
+                    // console.log("executing before submission", e, form);
                 },
                 onSubmit : (e, form) => {
                     console.log("on submit", form.submission);
@@ -217,7 +221,7 @@
             },
         })
             .then((formine) => {
-                console.log('formine loaded!', formine);
+                console.log('formine loaded!');
             })
             .catch((e) => {
                 console.error(e);

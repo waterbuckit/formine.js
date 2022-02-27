@@ -7,8 +7,6 @@ export const useTextComponent = ({defaultValue, path, hooks}) => {
 	const { onChange, onInput, values } = useContext(SubmissionContext);
 	const [value, setValue] = useState(( values[path] ?? defaultValue) ?? "");
 
-	useWithSubmissionValue(values[path], path);
-
 	return [value, setValue,{
 		value, 
 		onChange : (e) => {
@@ -33,13 +31,13 @@ export const useWithSubmissionValue = (submissionValue = null, path) => {
 		if(submissionValue){
 			onFieldLoadState(submissionValue, path);
 		}
-	}, []);
+	}, [submissionValue]);
 }
 
 export const useCheckboxComponent = ({defaultValue = false, path, hooks}, { value = null}) => {
+	const { onChange, onInput, values } = useContext(SubmissionContext);
+	const [ checked, setChecked ] = useState(values[path] ?? defaultValue);
 
-	const { onChange, onInput } = useContext(SubmissionContext);
-	const [ checked, setChecked ] = useState(defaultValue);
 	return [checked, setChecked,{
 		checked,
 		value,
@@ -71,16 +69,17 @@ export const useDidUpdateEffect = (fn, inputs) => {
   }
 
 export const useCheckboxFieldsetComponent = (fields, { path, hooks }) => {
-    const { onChange, onInput } = useContext(SubmissionContext);
-	const [event, setEvent] = useState(null);
+    const { onChange, onInput, values } = useContext(SubmissionContext);
+	const [event, setEvent] = useState();
 
     const [checkedState, setCheckedState] = useState(
-        fields.reduce((a, b) => {
-            a[snake(b.label)] = false;
-            return a;
-        }, {})
+        values[path] ??
+            fields.reduce((a, b) => {
+                a[snake(b.label)] = false;
+                return a;
+            }, {})
     );
-				
+
 	useDidUpdateEffect(() => {
     	hooks?.onChange?.(event, val, path);
         onChange(event, checkedState, path);
@@ -139,7 +138,6 @@ export const useShowLabel = (showLabel = true, type, before = true) => {
 }
 
 export const useConditionalRender = (conditions = [], defaultShow = true) => {
-
     const { submission } = useContext(SubmissionContext);
     const [show, setShow] = useState(defaultShow);
 

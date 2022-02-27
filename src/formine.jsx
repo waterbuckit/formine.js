@@ -17,7 +17,6 @@ class Formine extends FormComponent {
 			try {
 				let instance = null;
 				let mappedValues = mapToPaths(values);
-				console.log(mappedValues);
 				preactRender(
 					<Formine
 						ref={(formine) => {

@@ -1,7 +1,6 @@
 import { h, Component } from "preact";
 import { SubmissionContext } from "../../lib/context";
 import FormineComponent from "../formine-component";
-import * as FormineComponents from "./../components";
 
 export default class FormComponent extends Component {
     state = {
@@ -10,7 +9,6 @@ export default class FormComponent extends Component {
     };
 
     get submission() {
-		console.log(this.state.submission);
         return Object.entries(this.state.submission).reduce(
             (prev, [keyPath, value]) => this.#setValue(prev, keyPath, value),
             {}
@@ -80,9 +78,9 @@ export default class FormComponent extends Component {
         };
 
         const updateSubmissionField = (value, path) => {
-            this.setState({
+            this.setState((state) => ({
                 submission: { ...state.submission, [path]: value },
-            });
+            }));
         };
 
         return (
