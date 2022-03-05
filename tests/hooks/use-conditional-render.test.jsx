@@ -228,4 +228,36 @@ describe('Test conditional rendering', () => {
 
         expect(result.current[0]).toBe(false);
     })
+
+    test('component renders with string encoded function that should return true', () => {
+        const wrapper = ({children}) => (<SubmissionContext.Provider value={{
+            submission: {},
+        }}>{children}</SubmissionContext.Provider>)
+
+        const { result } = renderHook(
+            () =>
+                useConditionalRender([
+                    '(submission) => true'
+                ], true),
+            { wrapper }
+        );
+
+        expect(result.current[0]).toBe(true);
+    });
+
+    test('component renders with string encoded function that should return false', () => {
+        const wrapper = ({children}) => (<SubmissionContext.Provider value={{
+            submission: {},
+        }}>{children}</SubmissionContext.Provider>)
+
+        const { result } = renderHook(
+            () =>
+                useConditionalRender([
+                    '(submission) => false'
+                ], true),
+            { wrapper }
+        );
+
+        expect(result.current[0]).toBe(false);
+    });
 });
