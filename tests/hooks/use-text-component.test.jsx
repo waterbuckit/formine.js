@@ -1,4 +1,6 @@
 import { renderHook, act } from '@testing-library/preact-hooks';
+import { SubmissionContext } from '../../src/lib/context';
+import { h } from 'preact';
 import { useTextComponent } from '../../src/lib/hooks';
 
 describe('useTextComponent hook', () => {
@@ -41,5 +43,16 @@ describe('useTextComponent hook', () => {
             onInput : expect.any(Function),
             onClick : expect.any(Function),
         }));
+    });
+
+    test('Check that initial state gets set on loaded values', () => {
+        const wrapper = ({children}) => (<SubmissionContext.Provider value={{
+            values : {
+                'test-textfield' : 'hello'
+            }
+        }}>{children}</SubmissionContext.Provider>)
+        const {result} = renderHook(() => useTextComponent({ path : 'test-textfield' }), { wrapper })
+    
+        expect(result.current[0]).toBe('hello');
     });
 });

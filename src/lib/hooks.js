@@ -42,7 +42,7 @@ export const useCheckboxComponent = (
     { value = null }
 ) => {
     const { onChange, onInput, values } = useContext(SubmissionContext);
-    const [checked, setChecked] = useState(values[path] ?? defaultValue);
+    const [checked, setChecked] = useState(values?.[path] ?? defaultValue);
 
     return [
         checked,
