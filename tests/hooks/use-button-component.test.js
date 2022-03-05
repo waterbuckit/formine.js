@@ -8,12 +8,12 @@ describe('useButtonComponent hook', () => {
         expect(result.current[1]).toBe("button");
     });
     test('Defaults to button if type not submit or reset', () => {
-        const { result } = renderHook(() => useButtonComponent({attributes : { type : "asdasdak"}}));
+        const { result } = renderHook(() => useButtonComponent({ type : "asdasdak"}));
 
         expect(result.current[1]).toBe("button");
     });
     test('Allows button to be typed as a submit', () => {
-        const { result } = renderHook(() => useButtonComponent({attributes : { type : "submit"}}));
+        const { result } = renderHook(() => useButtonComponent({ type : "submit"}));
 
         expect(result.current[1]).toBe("submit");
     });
