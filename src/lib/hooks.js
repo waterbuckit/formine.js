@@ -83,7 +83,7 @@ export const useCheckboxFieldsetComponent = (fields, { path, hooks }) => {
     const [event, setEvent] = useState();
 
     const [checkedState, setCheckedState] = useState(
-        values[path] ??
+        values?.[path] ??
             fields.reduce((a, b) => {
                 a[snake(b.label)] = false;
                 return a;
